@@ -1,0 +1,21 @@
+.logo {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	column-gap: 10px;
+
+	&__icon {
+		height: 24px;
+		width: 24px;
+	}
+
+	&__text {
+		font-weight: 700;
+		font-size: 20px;
+		color: var(--foreground-primary);
+
+		span {
+			font-weight: 500;
+		}
+	}
+}
