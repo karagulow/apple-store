@@ -1,3 +1,5 @@
+@use '../../../app/styles/media' as *;
+
 .page {
 	display: flex;
 	flex-direction: column;
@@ -10,9 +12,47 @@
 		align-items: center;
 	}
 
+	&__wrapper {
+		display: grid;
+		grid-template-columns: 300px 1fr;
+		gap: 40px;
+
+		@include desktop {
+			grid-template-columns: 1fr;
+		}
+	}
+
 	&__title {
 		font-weight: 600;
 		font-size: 32px;
 		color: var(--foreground-primary);
+	}
+
+	&__filters {
+		@include desktop {
+			display: none;
+		}
+	}
+
+	&__products {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 20px;
+
+		@include desktop {
+			grid-template-columns: repeat(4, 1fr);
+		}
+
+		@include tablet {
+			grid-template-columns: repeat(3, 1fr);
+		}
+
+		@include mobile {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		@include mobile-s {
+			grid-template-columns: repeat(1, 1fr);
+		}
 	}
 }
