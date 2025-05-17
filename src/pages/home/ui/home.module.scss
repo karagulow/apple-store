@@ -1,0 +1,18 @@
+.page {
+	display: flex;
+	flex-direction: column;
+	row-gap: 40px;
+
+	&__top {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	&__title {
+		font-weight: 600;
+		font-size: 32px;
+		color: var(--foreground-primary);
+	}
+}
