@@ -1,0 +1,21 @@
+.checkbox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 24px;
+	height: 24px;
+	border-radius: 8px;
+	border: 1px solid var(--border);
+	background: var(--muted);
+
+	svg {
+		width: 14px;
+		height: 14px;
+	}
+
+	&__checked {
+		background: var(--accent);
+		border: 1px solid var(--accent);
+	}
+}

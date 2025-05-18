@@ -12,12 +12,19 @@
 		align-items: center;
 	}
 
+	&__controls {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		column-gap: 10px;
+	}
+
 	&__wrapper {
 		display: grid;
 		grid-template-columns: 300px 1fr;
 		gap: 40px;
 
-		@include desktop {
+		@include tablet {
 			grid-template-columns: 1fr;
 		}
 	}
@@ -29,7 +36,7 @@
 	}
 
 	&__filters {
-		@include desktop {
+		@include tablet {
 			display: none;
 		}
 	}
@@ -40,7 +47,7 @@
 		gap: 20px;
 
 		@include desktop {
-			grid-template-columns: repeat(4, 1fr);
+			grid-template-columns: repeat(2, 1fr);
 		}
 
 		@include tablet {
