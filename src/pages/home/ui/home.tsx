@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 
 import styles from './home.module.scss';
 
-import { Sort } from '../../../shared/ui';
+import { Button, Sort } from '../../../shared/ui';
 import { ProductCard, ProductCardSkeleton } from '../../../entities/product';
 import { FiltersDesktop } from '../../../features/filters';
 import { FiltersMobile } from '../../../features/filters/ui/filters-mobile';
@@ -16,6 +16,12 @@ interface Product {
 }
 
 export const Home: React.FC = () => {
+	const [visibleCount, setVisibleCount] = useState(6);
+
+	const handleShowMore = () => {
+		setVisibleCount(prev => prev + 6);
+	};
+
 	const [sortOption, setSortOption] = useState('expensive');
 	const [filters, setFilters] = useState({
 		categories: [] as string[],
@@ -82,6 +88,62 @@ export const Home: React.FC = () => {
 				image: '',
 				category: 'Планшеты',
 			},
+			{
+				id: '5',
+				name: 'Смартфон Apple iPhone 16 Pro Max 256 ГБ («Пустынный титан» | Desert Titanium)',
+				price: 102990,
+				image: '',
+				category: 'Смартфоны',
+			},
+			{
+				id: '6',
+				name: 'Смартфон Apple iPhone 15 Pro Max 256 ГБ («Натуральный титан» | Natural Titanium)',
+				price: 104990,
+				image: '',
+				category: 'Смартфоны',
+			},
+			{
+				id: '7',
+				name: 'Ноутбук MacBook Pro 16" M3 Pro 512GB (Space Gray)',
+				price: 224990,
+				image: '',
+				category: 'Ноутбуки',
+			},
+			{
+				id: '8',
+				name: 'Планшет iPad Pro 12.9" M2 256GB (Silver)',
+				price: 124990,
+				image: '',
+				category: 'Планшеты',
+			},
+			{
+				id: '9',
+				name: 'Смартфон Apple iPhone 16 Pro Max 256 ГБ («Пустынный титан» | Desert Titanium)',
+				price: 102990,
+				image: '',
+				category: 'Смартфоны',
+			},
+			{
+				id: '10',
+				name: 'Смартфон Apple iPhone 15 Pro Max 256 ГБ («Натуральный титан» | Natural Titanium)',
+				price: 104990,
+				image: '',
+				category: 'Смартфоны',
+			},
+			{
+				id: '11',
+				name: 'Ноутбук MacBook Pro 16" M3 Pro 512GB (Space Gray)',
+				price: 224990,
+				image: '',
+				category: 'Ноутбуки',
+			},
+			{
+				id: '12',
+				name: 'Планшет iPad Pro 12.9" M2 256GB (Silver)',
+				price: 124990,
+				image: '',
+				category: 'Планшеты',
+			},
 		];
 
 		setTimeout(() => {
@@ -117,6 +179,14 @@ export const Home: React.FC = () => {
 		setFilters(prev => ({ ...prev, ...newFilters }));
 	};
 
+	const visibleProducts = useMemo(() => {
+		return filteredProducts.slice(0, visibleCount);
+	}, [filteredProducts, visibleCount]);
+
+	useEffect(() => {
+		setVisibleCount(6);
+	}, [filters, sortOption]);
+
 	return (
 		<div className={styles.page}>
 			<div className={styles.page__top}>
@@ -149,20 +219,25 @@ export const Home: React.FC = () => {
 						onChange={handleFilterChange}
 					/>
 				</aside>
-				<div className={styles.page__products}>
-					{isLoading
-						? [...Array(6)].map((_, index) => (
-								<ProductCardSkeleton key={index} />
-						  ))
-						: filteredProducts.map(product => (
-								<ProductCard
-									key={product.id}
-									id={product.id}
-									name={product.name}
-									price={product.price}
-									image={product.image}
-								/>
-						  ))}
+				<div className={styles.page__content}>
+					<div className={styles.page__products}>
+						{isLoading
+							? [...Array(6)].map((_, index) => (
+									<ProductCardSkeleton key={index} />
+							  ))
+							: visibleProducts.map(product => (
+									<ProductCard
+										key={product.id}
+										id={product.id}
+										name={product.name}
+										price={product.price}
+										image={product.image}
+									/>
+							  ))}
+					</div>
+					{visibleCount < filteredProducts.length && (
+						<Button onClick={handleShowMore}>Показать ещё</Button>
+					)}
 				</div>
 			</div>
 		</div>

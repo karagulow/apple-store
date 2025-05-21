@@ -41,6 +41,12 @@
 		}
 	}
 
+	&__content {
+		display: flex;
+		flex-direction: column;
+		row-gap: 40px;
+	}
+
 	&__products {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
