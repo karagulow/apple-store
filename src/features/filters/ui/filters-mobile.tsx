@@ -14,6 +14,7 @@ interface FiltersMobileProps {
 		priceRange: { min: number; max: number };
 	};
 	onChange: (newFilters: any) => void;
+	onApply: () => void;
 }
 
 export const FiltersMobile: React.FC<FiltersMobileProps> = ({
@@ -21,12 +22,13 @@ export const FiltersMobile: React.FC<FiltersMobileProps> = ({
 	onChange,
 	categories,
 	priceRange,
+	onApply,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleApply = () => {
 		setIsOpen(false);
-		onChange(filters);
+		onApply();
 	};
 
 	return (

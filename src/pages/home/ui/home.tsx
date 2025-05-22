@@ -6,6 +6,7 @@ import { Button, Sort } from '../../../shared/ui';
 import { ProductCard, ProductCardSkeleton } from '../../../entities/product';
 import { FiltersDesktop } from '../../../features/filters';
 import { FiltersMobile } from '../../../features/filters/ui/filters-mobile';
+import { getProducts } from '../../../shared/api/api';
 
 interface Product {
 	id: string;
@@ -15,6 +16,14 @@ interface Product {
 	category: string;
 }
 
+interface FiltersState {
+	categories: string[];
+	priceRange: {
+		min: number;
+		max: number;
+	};
+}
+
 export const Home: React.FC = () => {
 	const [visibleCount, setVisibleCount] = useState(6);
 
@@ -22,18 +31,30 @@ export const Home: React.FC = () => {
 		setVisibleCount(prev => prev + 6);
 	};
 
-	const [sortOption, setSortOption] = useState('expensive');
-	const [filters, setFilters] = useState({
-		categories: [] as string[],
+	const [sortBy, setSortBy] = useState('price');
+	const [filters, setFilters] = useState<FiltersState>({
+		categories: [],
 		priceRange: { min: 0, max: 0 },
 	});
 	const [products, setProducts] = useState<Product[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const availableCategories = useMemo(() => {
-		const categories = new Set<string>();
-		products.forEach(product => categories.add(product.category));
-		return Array.from(categories);
+		const categoryCounts: Record<string, number> = {};
+
+		products.forEach(product => {
+			categoryCounts[product.category] =
+				(categoryCounts[product.category] || 0) + 1;
+		});
+
+		return Object.entries(categoryCounts)
+			.sort((a, b) => {
+				if (b[1] !== a[1]) {
+					return b[1] - a[1];
+				}
+				return a[0].localeCompare(b[0]);
+			})
+			.map(([category]) => category);
 	}, [products]);
 
 	const priceRange = useMemo(() => {
@@ -59,133 +80,67 @@ export const Home: React.FC = () => {
 	}, [products, priceRange]);
 
 	useEffect(() => {
-		const mockProducts: Product[] = [
-			{
-				id: '1',
-				name: 'Смартфон Apple iPhone 16 Pro Max 256 ГБ («Пустынный титан» | Desert Titanium)',
-				price: 102990,
-				image: '',
-				category: 'Смартфоны',
-			},
-			{
-				id: '2',
-				name: 'Смартфон Apple iPhone 15 Pro Max 256 ГБ («Натуральный титан» | Natural Titanium)',
-				price: 104990,
-				image: '',
-				category: 'Смартфоны',
-			},
-			{
-				id: '3',
-				name: 'Ноутбук MacBook Pro 16" M3 Pro 512GB (Space Gray)',
-				price: 224990,
-				image: '',
-				category: 'Ноутбуки',
-			},
-			{
-				id: '4',
-				name: 'Планшет iPad Pro 12.9" M2 256GB (Silver)',
-				price: 124990,
-				image: '',
-				category: 'Планшеты',
-			},
-			{
-				id: '5',
-				name: 'Смартфон Apple iPhone 16 Pro Max 256 ГБ («Пустынный титан» | Desert Titanium)',
-				price: 102990,
-				image: '',
-				category: 'Смартфоны',
-			},
-			{
-				id: '6',
-				name: 'Смартфон Apple iPhone 15 Pro Max 256 ГБ («Натуральный титан» | Natural Titanium)',
-				price: 104990,
-				image: '',
-				category: 'Смартфоны',
-			},
-			{
-				id: '7',
-				name: 'Ноутбук MacBook Pro 16" M3 Pro 512GB (Space Gray)',
-				price: 224990,
-				image: '',
-				category: 'Ноутбуки',
-			},
-			{
-				id: '8',
-				name: 'Планшет iPad Pro 12.9" M2 256GB (Silver)',
-				price: 124990,
-				image: '',
-				category: 'Планшеты',
-			},
-			{
-				id: '9',
-				name: 'Смартфон Apple iPhone 16 Pro Max 256 ГБ («Пустынный титан» | Desert Titanium)',
-				price: 102990,
-				image: '',
-				category: 'Смартфоны',
-			},
-			{
-				id: '10',
-				name: 'Смартфон Apple iPhone 15 Pro Max 256 ГБ («Натуральный титан» | Natural Titanium)',
-				price: 104990,
-				image: '',
-				category: 'Смартфоны',
-			},
-			{
-				id: '11',
-				name: 'Ноутбук MacBook Pro 16" M3 Pro 512GB (Space Gray)',
-				price: 224990,
-				image: '',
-				category: 'Ноутбуки',
-			},
-			{
-				id: '12',
-				name: 'Планшет iPad Pro 12.9" M2 256GB (Silver)',
-				price: 124990,
-				image: '',
-				category: 'Планшеты',
-			},
-		];
+		const fetchProducts = async () => {
+			setIsLoading(true);
+			try {
+				const data = await getProducts({
+					sortBy,
+					_select: ['id', 'name', 'category', 'preview', 'price'].join(','),
+				});
+				setProducts(data);
+			} catch (error) {
+				console.error('Ошибка при загрузке товаров:', error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+		fetchProducts();
+	}, [sortBy]);
 
-		setTimeout(() => {
-			setProducts(mockProducts);
+	const handleApplyFilters = async () => {
+		setIsLoading(true);
+		try {
+			const selectedFields = [
+				'id',
+				'name',
+				'category',
+				'preview',
+				'price',
+			].join(',');
+
+			const params: Record<string, any> = {
+				sortBy,
+				_select: selectedFields,
+			};
+
+			if (filters.priceRange.min > 0) {
+				params['price[from]'] = filters.priceRange.min.toString();
+			}
+			if (filters.priceRange.max > 0) {
+				params['price[to]'] = filters.priceRange.max.toString();
+			}
+			if (filters.categories.length > 0) {
+				params['category[]'] = filters.categories;
+			}
+
+			const data = await getProducts(params);
+			setProducts(data);
+		} catch (error) {
+			console.error('Ошибка при загрузке товаров:', error);
+		} finally {
 			setIsLoading(false);
-		}, 1000);
-	}, []);
-
-	const filteredProducts = useMemo(() => {
-		let result = [...products];
-
-		if (filters.categories.length > 0) {
-			result = result.filter(p => filters.categories.includes(p.category));
 		}
-
-		result = result.filter(
-			p =>
-				p.price >= filters.priceRange.min && p.price <= filters.priceRange.max
-		);
-
-		switch (sortOption) {
-			case 'expensive':
-				return result.sort((a, b) => b.price - a.price);
-			case 'cheap':
-				return result.sort((a, b) => a.price - b.price);
-			case 'popular':
-			default:
-				return result;
-		}
-	}, [products, filters, sortOption]);
+	};
 
 	const handleFilterChange = (newFilters: Partial<typeof filters>) => {
 		setFilters(prev => ({ ...prev, ...newFilters }));
 	};
 
 	const visibleProducts = useMemo(() => {
-		return filteredProducts.slice(0, visibleCount);
-	}, [filteredProducts, visibleCount]);
+		return products.slice(0, visibleCount);
+	}, [products, visibleCount]);
 
-	useEffect(() => {
-		setVisibleCount(6);
-	}, [filters, sortOption]);
+	console.log(filters);
 
 	return (
 		<div className={styles.page}>
@@ -194,18 +149,18 @@ export const Home: React.FC = () => {
 				<div className={styles.page__controls}>
 					<Sort
 						options={[
-							{ value: 'expensive', label: 'Сначала дорогие' },
-							{ value: 'cheap', label: 'Сначала недорогие' },
-							{ value: 'popular', label: 'Сначала популярные' },
+							{ value: '-price', label: 'Сначала дорогие' },
+							{ value: 'price', label: 'Сначала недорогие' },
 						]}
-						selectedValue={sortOption}
-						onChange={setSortOption}
+						selectedValue={sortBy}
+						onChange={setSortBy}
 					/>
 					<FiltersMobile
 						categories={availableCategories}
 						priceRange={priceRange}
 						filters={filters}
 						onChange={handleFilterChange}
+						onApply={handleApplyFilters}
 					/>
 				</div>
 			</div>
@@ -217,6 +172,7 @@ export const Home: React.FC = () => {
 						priceRange={priceRange}
 						filters={filters}
 						onChange={handleFilterChange}
+						onApply={handleApplyFilters}
 					/>
 				</aside>
 				<div className={styles.page__content}>
@@ -235,7 +191,7 @@ export const Home: React.FC = () => {
 									/>
 							  ))}
 					</div>
-					{visibleCount < filteredProducts.length && (
+					{visibleCount < products.length && (
 						<Button onClick={handleShowMore}>Показать ещё</Button>
 					)}
 				</div>

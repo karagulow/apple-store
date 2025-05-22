@@ -11,6 +11,7 @@ interface FiltersDesktopProps {
 		priceRange: { min: number; max: number };
 	};
 	onChange: (newFilters: any) => void;
+	onApply: () => void;
 }
 
 export const FiltersDesktop: React.FC<FiltersDesktopProps> = ({
@@ -18,6 +19,7 @@ export const FiltersDesktop: React.FC<FiltersDesktopProps> = ({
 	priceRange,
 	filters,
 	onChange,
+	onApply,
 }) => {
 	return (
 		<div className={styles.filters}>
@@ -35,8 +37,8 @@ export const FiltersDesktop: React.FC<FiltersDesktopProps> = ({
 			<hr className='divider' />
 			<FilterItem
 				type='price'
-				minPrice={priceRange.min}
-				maxPrice={priceRange.max}
+				minPrice={priceRange?.min}
+				maxPrice={priceRange?.max}
 				value={filters.priceRange}
 				onChange={selectedPriceRange =>
 					onChange({
@@ -46,7 +48,7 @@ export const FiltersDesktop: React.FC<FiltersDesktopProps> = ({
 				}
 			/>
 			<hr className='divider' />
-			<Button onClick={() => onChange(filters)}>Применить</Button>
+			<Button onClick={onApply}>Применить</Button>
 		</div>
 	);
 };
