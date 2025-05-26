@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import styles from './product-card.module.scss';
 import classNames from 'classnames';
+
+import styles from './product-card.module.scss';
+import { LikeButton } from '../../../shared/ui';
 
 interface ProductCardProps {
 	id: string;
@@ -24,18 +25,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 	onAddToCart,
 	onToggleFavorite,
 }) => {
-	const [localIsFavorite, setLocalIsFavorite] = useState(isFavorite);
-	const [localIsInCart, setLocalIsInCart] = useState(isInCart);
-
-	const handleAddToCart = (e: React.MouseEvent) => {
-		e.preventDefault();
-		setLocalIsInCart(true);
+	const handleAddToCart = () => {
 		onAddToCart?.(id);
 	};
 
-	const handleToggleFavorite = (e: React.MouseEvent) => {
-		e.preventDefault();
-		setLocalIsFavorite(!localIsFavorite);
+	const handleToggleFavorite = () => {
 		onToggleFavorite?.(id);
 	};
 
@@ -44,23 +38,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 	};
 
 	return (
-		<Link to={`/products/${id}`} className={styles.product}>
-			<div className={styles.product__preview}>
-				<img src={image} alt={name} />
-			</div>
+		<div className={styles.product}>
+			<Link className={styles.product__link} to={`/products/${id}`}>
+				<div className={styles.product__preview}>
+					<img src={image} alt={name} />
+				</div>
 
-			<h3 className={styles.product__name}>{name}</h3>
+				<h3 className={styles.product__name}>{name}</h3>
+			</Link>
 
 			<div className={styles.product__bottom}>
 				<div className={styles.product__price}>{formatPrice(price)}</div>
 				<button
 					className={classNames(
 						styles.product__btn,
-						localIsInCart && styles.product__btn_cart
+						isInCart && styles.product__btn_cart
 					)}
 					onClick={handleAddToCart}
 				>
-					{localIsInCart ? (
+					{isInCart ? (
 						<svg
 							width='18'
 							height='18'
@@ -96,36 +92,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 				</button>
 			</div>
 
-			<button
-				className={classNames(
-					styles.product__favorite,
-					localIsFavorite && styles.product__favorite_active
-				)}
-				onClick={handleToggleFavorite}
-			>
-				<svg
-					width='24'
-					height='24'
-					viewBox='0 0 24 24'
-					fill='none'
-					xmlns='http://www.w3.org/2000/svg'
-				>
-					<g clipPath='url(#clip0_100632_329)'>
-						<path
-							d='M21 8.25C21 5.765 18.901 3.75 16.312 3.75C14.377 3.75 12.715 4.876 12 6.483C11.285 4.876 9.623 3.75 7.687 3.75C5.1 3.75 3 5.765 3 8.25C3 15.47 12 20.25 12 20.25C12 20.25 21 15.47 21 8.25Z'
-							stroke='#212121'
-							strokeWidth='1.5'
-							strokeLinecap='round'
-							strokeLinejoin='round'
-						/>
-					</g>
-					<defs>
-						<clipPath id='clip0_100632_329'>
-							<rect width='24' height='24' fill='white' />
-						</clipPath>
-					</defs>
-				</svg>
-			</button>
-		</Link>
+			<LikeButton
+				className={styles.product__favorite}
+				isFavorite={isFavorite}
+				onToggle={handleToggleFavorite}
+			/>
+		</div>
 	);
 };

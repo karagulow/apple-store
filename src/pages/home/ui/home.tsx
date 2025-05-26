@@ -6,7 +6,7 @@ import { Button, Sort } from '../../../shared/ui';
 import { ProductCard, ProductCardSkeleton } from '../../../entities/product';
 import { FiltersDesktop } from '../../../features/filters';
 import { FiltersMobile } from '../../../features/filters/ui/filters-mobile';
-import { getProducts } from '../../../shared/api/api';
+import { getProducts } from '../model/api';
 
 interface Product {
 	id: string;
@@ -139,8 +139,6 @@ export const Home: React.FC = () => {
 	const visibleProducts = useMemo(() => {
 		return products.slice(0, visibleCount);
 	}, [products, visibleCount]);
-
-	console.log(filters);
 
 	return (
 		<div className={styles.page}>

@@ -1,0 +1,51 @@
+@use '../../../app/styles/media' as *;
+
+.slider {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+
+	&__top {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	&__title {
+		font-weight: 600;
+		font-size: 28px;
+		color: var(--foreground-primary);
+
+		@include mobile {
+			font-size: 24px;
+		}
+	}
+
+	&__controls {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		column-gap: 10px;
+	}
+
+	&__content {
+		position: relative;
+		left: -20px;
+		padding: 0 20px 20px;
+		width: calc(100% + 40px);
+		overflow: hidden;
+	}
+
+	&__items {
+		display: flex;
+		transition: transform 0.3s ease-in-out;
+		align-items: stretch;
+	}
+
+	&__item {
+		flex-shrink: 0;
+		display: flex;
+		min-height: 100%;
+	}
+}
