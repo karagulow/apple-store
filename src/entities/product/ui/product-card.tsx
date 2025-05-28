@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import styles from './product-card.module.scss';
-import { LikeButton } from '../../../shared/ui';
+import { ToggleFavorite } from '../../../features/toggle-favorite';
 
 interface ProductCardProps {
 	id: string;
@@ -11,8 +11,6 @@ interface ProductCardProps {
 	image: string;
 	isFavorite?: boolean;
 	isInCart?: boolean;
-	onAddToCart?: (id: string) => void;
-	onToggleFavorite?: (id: string) => void;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -20,17 +18,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 	name,
 	price,
 	image,
-	isFavorite = false,
 	isInCart = false,
-	onAddToCart,
-	onToggleFavorite,
 }) => {
 	const handleAddToCart = () => {
-		onAddToCart?.(id);
-	};
-
-	const handleToggleFavorite = () => {
-		onToggleFavorite?.(id);
+		// Логика добавления в корзину
 	};
 
 	const formatPrice = (price: number) => {
@@ -92,10 +83,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 				</button>
 			</div>
 
-			<LikeButton
+			<ToggleFavorite
 				className={styles.product__favorite}
-				isFavorite={isFavorite}
-				onToggle={handleToggleFavorite}
+				productId={id.toString()}
 			/>
 		</div>
 	);

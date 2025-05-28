@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 
 import styles from './product.module.scss';
 
-import { Button, LikeButton } from '../../../shared/ui';
+import { Button } from '../../../shared/ui';
 import { ProductSlider } from '../../../entities/product';
 
 import { getProduct, getRecommendedProducts } from '../model/api';
+
+import { ToggleFavorite } from '../../../features/toggle-favorite';
 
 interface ProductType {
 	id: number;
@@ -87,12 +89,9 @@ export const Product: React.FC = () => {
 						<Button className={styles['product__cart-btn']}>
 							Добавить в корзину
 						</Button>
-						<LikeButton
+						<ToggleFavorite
 							className={styles['product__like-btn']}
-							isFavorite={false}
-							onToggle={function (): void {
-								throw new Error('Function not implemented.');
-							}}
+							productId={product.id.toString()}
 						/>
 					</div>
 				</div>
