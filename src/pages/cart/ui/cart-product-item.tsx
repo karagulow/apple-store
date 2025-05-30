@@ -2,25 +2,59 @@ import classNames from 'classnames';
 
 import styles from './cart.module.scss';
 
-export const CartProductItem: React.FC = () => {
+import type { Product } from '../model/types';
+import { useAppDispatch } from '../../../shared/lib/hooks/redux';
+import {
+	changeQuantity,
+	removeFromCart,
+} from '../../../entities/cart/model/cartSlice';
+
+interface Props {
+	product: Product;
+	quantity: number;
+}
+
+export const CartProductItem: React.FC<Props> = ({ product, quantity }) => {
+	const dispatch = useAppDispatch();
+
+	const handleDecrement = () => {
+		if (quantity > 1) {
+			dispatch(
+				changeQuantity({ id: product.id.toString(), quantity: quantity - 1 })
+			);
+		}
+	};
+
+	const handleIncrement = () => {
+		dispatch(
+			changeQuantity({ id: product.id.toString(), quantity: quantity + 1 })
+		);
+	};
+
+	const handleRemove = () => {
+		dispatch(removeFromCart(product.id.toString()));
+	};
+
 	return (
 		<div className={styles.product}>
-			<img className={styles.product__preview} src='' alt='product' />
-			<p className={styles.product__name}>
-				Смартфон Apple iPhone 16 Pro Max 256 ГБ («Пустынный титан» | Desert
-				Titanium)
-			</p>
+			<img
+				className={styles.product__preview}
+				src={product.preview}
+				alt={product.name}
+			/>
+			<p className={styles.product__name}>{product.name}</p>
 			<p className={styles.product__price}>
-				102 990 ₽ <span>x 1</span>
+				{product.price.toLocaleString('ru-RU')} ₽ <span>x {quantity}</span>
 			</p>
 			<div className={styles.product__actions}>
 				<div className={styles.product__counter}>
 					<button
-						className={classNames(
-							styles.product__counter__btn,
-							styles.product__counter__btn_disabled
-						)}
+						className={classNames(styles.product__counter__btn, {
+							[styles.product__counter__btn_disabled]: quantity <= 1,
+						})}
+						disabled={quantity <= 1}
 						type='button'
+						onClick={handleDecrement}
 					>
 						<svg
 							width='18'
@@ -38,8 +72,12 @@ export const CartProductItem: React.FC = () => {
 							/>
 						</svg>
 					</button>
-					<span className={styles.product__counter__value}>1</span>
-					<button className={styles.product__counter__btn} type='button'>
+					<span className={styles.product__counter__value}>{quantity}</span>
+					<button
+						className={styles.product__counter__btn}
+						type='button'
+						onClick={handleIncrement}
+					>
 						<svg
 							width='18'
 							height='19'
@@ -57,7 +95,11 @@ export const CartProductItem: React.FC = () => {
 						</svg>
 					</button>
 				</div>
-				<button className={styles.product__delete} type='button'>
+				<button
+					className={styles.product__delete}
+					type='button'
+					onClick={handleRemove}
+				>
 					<svg
 						width='30'
 						height='30'

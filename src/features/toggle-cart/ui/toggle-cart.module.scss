@@ -1,0 +1,9 @@
+.active {
+	border: 1px solid var(--accent);
+	background-color: var(--accent);
+
+	&:hover {
+		border: 1px solid var(--foreground-secondary);
+		background-color: var(--foreground-secondary) !important;
+	}
+}

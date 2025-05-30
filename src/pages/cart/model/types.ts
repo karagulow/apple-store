@@ -13,3 +13,10 @@ export interface CartFormProps {
 	register: UseFormRegister<FormData>;
 	errors: FieldErrors<FormData>;
 }
+
+export interface Product {
+	id: string;
+	name: string;
+	price: number;
+	preview: string;
+}

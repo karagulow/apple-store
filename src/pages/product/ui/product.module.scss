@@ -27,6 +27,10 @@
 		flex-shrink: 0;
 		background: var(--muted);
 
+		img {
+			mix-blend-mode: darken;
+		}
+
 		@include desktop {
 			width: 500px;
 			height: 500px;
@@ -83,14 +87,6 @@
 		display: flex;
 		flex-direction: row;
 		column-gap: 10px;
-	}
-
-	&__cart-btn {
-		width: 220px;
-
-		@include mobile-s {
-			width: 100%;
-		}
 	}
 
 	&__like-btn {

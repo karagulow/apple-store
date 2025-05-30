@@ -3,12 +3,11 @@ import { useParams } from 'react-router-dom';
 
 import styles from './product.module.scss';
 
-import { Button } from '../../../shared/ui';
 import { ProductSlider } from '../../../entities/product';
+import { ToggleFavorite } from '../../../features/toggle-favorite';
+import { ManageCartItem } from '../../../features/manage-cart-item';
 
 import { getProduct, getRecommendedProducts } from '../model/api';
-
-import { ToggleFavorite } from '../../../features/toggle-favorite';
 
 interface ProductType {
 	id: number;
@@ -86,9 +85,7 @@ export const Product: React.FC = () => {
 						{product.price.toLocaleString('ru-RU')} ₽
 					</span>
 					<div className={styles.product__controls}>
-						<Button className={styles['product__cart-btn']}>
-							Добавить в корзину
-						</Button>
+						<ManageCartItem productId={product.id.toString()} />
 						<ToggleFavorite
 							className={styles['product__like-btn']}
 							productId={product.id.toString()}
