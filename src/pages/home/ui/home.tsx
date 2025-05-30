@@ -12,7 +12,7 @@ interface Product {
 	id: string;
 	name: string;
 	price: number;
-	image: string;
+	preview: string;
 	category: string;
 }
 
@@ -185,7 +185,7 @@ export const Home: React.FC = () => {
 										id={product.id}
 										name={product.name}
 										price={product.price}
-										image={product.image}
+										preview={product.preview}
 									/>
 							  ))}
 					</div>

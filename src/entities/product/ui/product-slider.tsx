@@ -118,7 +118,7 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({
 										id={product.id}
 										name={product.name}
 										price={product.price}
-										image={product.preview}
+										preview={product.preview}
 									/>
 								</div>
 						  ))}

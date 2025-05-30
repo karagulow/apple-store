@@ -1,6 +1,10 @@
 .header {
+	position: sticky;
+	top: 0;
 	padding-block: 20px;
+	background-color: var(--background);
 	border-bottom: 1px solid var(--border);
+	z-index: 10;
 
 	&__wrapper {
 		display: flex;
@@ -17,11 +21,30 @@
 	}
 
 	&__link {
+		position: relative;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 
 		width: 24px;
 		height: 24px;
+	}
+
+	&__count {
+		position: absolute;
+		top: -5px;
+		right: -5px;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		width: 16px;
+		height: 16px;
+		background-color: var(--accent);
+		border-radius: 50%;
+
+		font-size: 10px;
+		color: var(--background);
 	}
 }

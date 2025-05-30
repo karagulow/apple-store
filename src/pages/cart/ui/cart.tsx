@@ -49,7 +49,17 @@ export const Cart: React.FC = () => {
 	const quantityMap = new Map(cart.map(item => [item.id, item.quantity]));
 
 	const onSubmit = (data: FormData) => {
-		console.log('Form data:', data);
+		const order = {
+			user: data,
+			products: products.map(p => ({
+				id: p.id,
+				name: p.name,
+				price: p.price,
+				quantity: quantityMap.get(p.id.toString()),
+			})),
+		};
+
+		console.log('Order to submit:', order);
 	};
 
 	return (

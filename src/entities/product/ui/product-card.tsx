@@ -9,14 +9,14 @@ interface ProductCardProps {
 	id: string;
 	name: string;
 	price: number;
-	image: string;
+	preview: string;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
 	id,
 	name,
 	price,
-	image,
+	preview,
 }) => {
 	const formatPrice = (price: number) => {
 		return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
@@ -26,7 +26,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 		<div className={styles.product}>
 			<Link className={styles.product__link} to={`/products/${id}`}>
 				<div className={styles.product__preview}>
-					<img src={image} alt={name} />
+					<img src={preview} alt={name} />
 				</div>
 
 				<h3 className={styles.product__name}>{name}</h3>

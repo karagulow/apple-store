@@ -137,6 +137,11 @@
 		font-weight: 600;
 		font-size: 16px;
 		color: var(--foreground-primary);
+		text-align: right;
+
+		@include mobile {
+			text-align: left;
+		}
 
 		span {
 			color: var(--foreground-secondary);

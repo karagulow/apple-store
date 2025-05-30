@@ -7,3 +7,4 @@ export { ArrowButton } from './arrow-button';
 export { LikeButton } from './like-button';
 export { Input } from './input';
 export { Textarea } from './textarea';
+export { ScrollToTop } from './scroll-to-top';
