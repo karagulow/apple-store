@@ -8,6 +8,7 @@ import {
 	changeQuantity,
 	removeFromCart,
 } from '../../../entities/cart/model/cartSlice';
+import { Link } from 'react-router-dom';
 
 interface Props {
 	product: Product;
@@ -37,12 +38,16 @@ export const CartProductItem: React.FC<Props> = ({ product, quantity }) => {
 
 	return (
 		<div className={styles.product}>
-			<img
-				className={styles.product__preview}
-				src={product.preview}
-				alt={product.name}
-			/>
-			<p className={styles.product__name}>{product.name}</p>
+			<Link to={`/products/${product.id}`}>
+				<img
+					className={styles.product__preview}
+					src={product.preview}
+					alt={product.name}
+				/>
+			</Link>
+			<Link to={`/products/${product.id}`} className={styles.product__name}>
+				{product.name}
+			</Link>
 			<p className={styles.product__price}>
 				{product.price.toLocaleString('ru-RU')} ₽ <span>x {quantity}</span>
 			</p>

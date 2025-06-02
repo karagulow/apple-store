@@ -171,7 +171,8 @@
 			height: 30px;
 			border-radius: 8px;
 			border: 1px solid var(--accent);
-			transition: all 0.1s ease-in-out;
+			transition: border-color, background-color 0.1s ease-in-out,
+				scale 0.2s ease;
 
 			svg {
 				path {
@@ -182,6 +183,10 @@
 
 			&:hover {
 				background-color: var(--background);
+			}
+
+			&:active {
+				scale: 0.97;
 			}
 
 			&_disabled {
