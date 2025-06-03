@@ -1,16 +1,17 @@
+import React from 'react';
+
 import styles from './filters.module.scss';
 
-import { FilterItem } from './filter-item';
 import { Button } from '../../../shared/ui';
+
+import type { FiltersValue } from '../model/types';
+import { getFilterComponents } from '../model/filter-components';
 
 interface FiltersDesktopProps {
 	categories: string[];
 	priceRange: { min: number; max: number };
-	filters: {
-		categories: string[];
-		priceRange: { min: number; max: number };
-	};
-	onChange: (newFilters: any) => void;
+	filters: FiltersValue;
+	onChange: (newFilters: FiltersValue) => void;
 	onApply: () => void;
 }
 
@@ -21,33 +22,21 @@ export const FiltersDesktop: React.FC<FiltersDesktopProps> = ({
 	onChange,
 	onApply,
 }) => {
+	const filterBlocks = getFilterComponents({
+		categories,
+		priceRange,
+		filters,
+		onChange,
+	});
+
 	return (
 		<div className={styles.filters}>
-			<FilterItem
-				type='category'
-				categories={categories}
-				value={filters.categories}
-				onChange={selectedCategories =>
-					onChange({
-						...filters,
-						categories: selectedCategories,
-					})
-				}
-			/>
-			<hr className='divider' />
-			<FilterItem
-				type='price'
-				minPrice={priceRange?.min}
-				maxPrice={priceRange?.max}
-				value={filters.priceRange}
-				onChange={selectedPriceRange =>
-					onChange({
-						...filters,
-						priceRange: selectedPriceRange,
-					})
-				}
-			/>
-			<hr className='divider' />
+			{filterBlocks.map(({ component: Component, props }, index) => (
+				<React.Fragment key={index}>
+					<Component {...(props as any)} />
+					<hr className='divider' />
+				</React.Fragment>
+			))}
 			<Button onClick={onApply}>Применить</Button>
 		</div>
 	);

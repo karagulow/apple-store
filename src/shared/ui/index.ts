@@ -8,3 +8,6 @@ export { LikeButton } from './like-button';
 export { Input } from './input';
 export { Textarea } from './textarea';
 export { ScrollToTop } from './scroll-to-top';
+
+export { CloseIcon } from './icons';
+export { FilterIcon } from './icons';

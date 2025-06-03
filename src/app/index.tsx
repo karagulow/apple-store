@@ -1,15 +1,11 @@
-import React from 'react';
-
 import { AppRouter } from './routers/app-router';
 
 import './styles/main.scss';
 
-const App: React.FC = () => {
+export const App = () => {
 	return (
 		<div className='app'>
 			<AppRouter />
 		</div>
 	);
 };
-
-export default App;

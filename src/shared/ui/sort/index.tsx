@@ -35,7 +35,23 @@ export const Sort: React.FC<SortProps> = ({
 			onMouseEnter={() => setIsOpen(true)}
 			onMouseLeave={() => setIsOpen(false)}
 		>
-			<div className={styles.sort__wrapper} onClick={() => setIsOpen(!isOpen)}>
+			<div
+				className={styles.sort__wrapper}
+				onClick={() => setIsOpen(!isOpen)}
+				role='button'
+				tabIndex={0}
+				aria-haspopup='listbox'
+				aria-expanded={isOpen}
+				onKeyDown={e => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						setIsOpen(prev => !prev);
+					}
+					if (e.key === 'Escape') {
+						setIsOpen(false);
+					}
+				}}
+			>
 				<img
 					className={styles.sort__icon}
 					src={arrowsIcon}
@@ -50,10 +66,14 @@ export const Sort: React.FC<SortProps> = ({
 					styles.sort__dropdown,
 					isOpen && styles.sort__dropdown_open
 				)}
+				role='listbox'
 			>
 				{options.map(option => (
 					<li
 						key={option.value}
+						role='option'
+						aria-selected={selectedValue === option.value}
+						tabIndex={-1}
 						className={classNames(
 							styles.sort__dropdown__item,
 							selectedValue === option.value &&
