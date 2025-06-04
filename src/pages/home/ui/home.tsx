@@ -9,7 +9,10 @@ import { ProductsList } from './products-list';
 import { useProducts } from '../model/use-products';
 
 export const Home: React.FC = () => {
-	const [visibleCount, setVisibleCount] = useState(6);
+	const INITIAL_VISIBLE_COUNT = 6;
+	const INCREMENT_COUNT = 6;
+	const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
+
 	const {
 		sortBy,
 		setSortBy,
@@ -18,12 +21,11 @@ export const Home: React.FC = () => {
 		isLoading,
 		availableCategories,
 		priceRange,
-		handleApplyFilters,
 		handleFilterChange,
 	} = useProducts();
 
 	const handleShowMore = () => {
-		setVisibleCount(prev => prev + 6);
+		setVisibleCount(prev => prev + INCREMENT_COUNT);
 	};
 
 	return (
@@ -35,7 +37,6 @@ export const Home: React.FC = () => {
 				priceRange={priceRange}
 				filters={filters}
 				handleFilterChange={handleFilterChange}
-				handleApplyFilters={handleApplyFilters}
 			/>
 
 			<div className={styles.page__wrapper}>
@@ -45,7 +46,6 @@ export const Home: React.FC = () => {
 						priceRange={priceRange}
 						filters={filters}
 						onChange={handleFilterChange}
-						onApply={handleApplyFilters}
 					/>
 				</aside>
 				<div className={styles.page__content}>

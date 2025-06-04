@@ -2,8 +2,6 @@ import React from 'react';
 
 import styles from './filters.module.scss';
 
-import { Button } from '../../../shared/ui';
-
 import type { FiltersValue } from '../model/types';
 import { getFilterComponents } from '../model/filter-components';
 
@@ -12,7 +10,6 @@ interface FiltersDesktopProps {
 	priceRange: { min: number; max: number };
 	filters: FiltersValue;
 	onChange: (newFilters: FiltersValue) => void;
-	onApply: () => void;
 }
 
 export const FiltersDesktop: React.FC<FiltersDesktopProps> = ({
@@ -20,7 +17,6 @@ export const FiltersDesktop: React.FC<FiltersDesktopProps> = ({
 	priceRange,
 	filters,
 	onChange,
-	onApply,
 }) => {
 	const filterBlocks = getFilterComponents({
 		categories,
@@ -34,10 +30,9 @@ export const FiltersDesktop: React.FC<FiltersDesktopProps> = ({
 			{filterBlocks.map(({ component: Component, props }, index) => (
 				<React.Fragment key={index}>
 					<Component {...(props as any)} />
-					<hr className='divider' />
+					{index < filterBlocks.length - 1 && <hr className='divider' />}
 				</React.Fragment>
 			))}
-			<Button onClick={onApply}>Применить</Button>
 		</div>
 	);
 };

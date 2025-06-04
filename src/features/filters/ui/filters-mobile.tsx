@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import styles from './filters.module.scss';
 
-import { Button, CloseIcon, FilterIcon } from '../../../shared/ui';
+import { CloseIcon, FilterIcon } from '../../../shared/ui';
 import type { FiltersValue } from '../model/types';
 import { getFilterComponents } from '../model/filter-components';
 
@@ -13,7 +13,6 @@ interface FiltersMobileProps {
 	priceRange: { min: number; max: number };
 	filters: FiltersValue;
 	onChange: (newFilters: FiltersValue) => void;
-	onApply: () => void;
 }
 
 export const FiltersMobile: React.FC<FiltersMobileProps> = ({
@@ -21,14 +20,8 @@ export const FiltersMobile: React.FC<FiltersMobileProps> = ({
 	onChange,
 	categories,
 	priceRange,
-	onApply,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
-
-	const handleApply = () => {
-		setIsOpen(false);
-		onApply();
-	};
 
 	const filterBlocks = getFilterComponents({
 		categories,
@@ -69,9 +62,6 @@ export const FiltersMobile: React.FC<FiltersMobileProps> = ({
 							{index < filterBlocks.length - 1 && <hr className='divider' />}
 						</React.Fragment>
 					))}
-					<div className={styles.modal__btn}>
-						<Button onClick={handleApply}>Применить</Button>
-					</div>
 				</div>
 			</dialog>
 		</>

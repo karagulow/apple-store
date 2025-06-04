@@ -34,7 +34,7 @@ export const ProductsList: React.FC<ProductsListProps> = ({
 							/>
 					  ))}
 			</div>
-			{visibleCount < products.length && (
+			{!isLoading && visibleCount < products.length && (
 				<Button onClick={onShowMore}>Показать ещё</Button>
 			)}
 		</>
