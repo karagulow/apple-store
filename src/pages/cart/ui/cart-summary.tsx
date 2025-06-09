@@ -18,7 +18,7 @@ export const CartSummary: React.FC<Props> = ({
 		return sum + product.price * quantity;
 	}, 0);
 
-	const total = productsTotal + deliveryPrice;
+	const orderTotal = productsTotal + deliveryPrice;
 
 	return (
 		<div className={styles.block} style={{ rowGap: '30px' }}>
@@ -40,11 +40,11 @@ export const CartSummary: React.FC<Props> = ({
 				</div>
 				<hr className='divider' />
 				<div className={styles.block__total__item}>
-					<span className={styles.text} style={{ fontWeight: '600' }}>
-						Итого
+					<span className={styles.text}>
+						<strong>Итого</strong>
 					</span>
-					<span className={styles.text} style={{ fontWeight: '600' }}>
-						{total.toLocaleString('ru-RU')} ₽
+					<span className={styles.text}>
+						<strong>{orderTotal.toLocaleString('ru-RU')} ₽</strong>
 					</span>
 				</div>
 			</div>

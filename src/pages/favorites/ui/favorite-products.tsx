@@ -7,13 +7,7 @@ import { ProductCard, ProductCardSkeleton } from '../../../entities/product';
 import { useAppSelector } from '../../../shared/lib/hooks/redux';
 import { getProductsByIds } from '../model/api';
 
-interface Product {
-	id: string;
-	name: string;
-	price: number;
-	preview: string;
-	category: string;
-}
+import type { Product } from '../model/types';
 
 export const FavoriteProducts: React.FC = () => {
 	const favoritesId = useAppSelector(state => state.favorites);

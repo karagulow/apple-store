@@ -11,13 +11,13 @@ export const CartUserInfo: React.FC<CartFormProps> = ({ register, errors }) => (
 				label='Имя'
 				type='text'
 				{...register('firstName', { required: 'Введите имя' })}
-				error={errors.firstName?.message}
+				error={errors?.firstName?.message}
 			/>
 			<Input
 				label='Фамилия'
 				type='text'
 				{...register('lastName', { required: 'Введите фамилию' })}
-				error={errors.lastName?.message}
+				error={errors?.lastName?.message}
 			/>
 			<Input
 				label='Email'
@@ -29,7 +29,7 @@ export const CartUserInfo: React.FC<CartFormProps> = ({ register, errors }) => (
 						message: 'Некорректный email',
 					},
 				})}
-				error={errors.email?.message}
+				error={errors?.email?.message}
 			/>
 			<Input
 				label='Телефон'
@@ -37,11 +37,11 @@ export const CartUserInfo: React.FC<CartFormProps> = ({ register, errors }) => (
 				{...register('phone', {
 					required: 'Введите номер телефона',
 					pattern: {
-						value: /^((\+7|7|8)[\s-]?)?(\(?\d{3}\)?[\s-]?)?[\d\s-]{7,10}$/,
+						value: /^\+7\d{10}$/,
 						message: 'Некорректный номер телефона',
 					},
 				})}
-				error={errors.phone?.message}
+				error={errors?.phone?.message}
 			/>
 		</div>
 	</div>

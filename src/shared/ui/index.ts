@@ -11,3 +11,6 @@ export { ScrollToTop } from './scroll-to-top';
 
 export { CloseIcon } from './icons';
 export { FilterIcon } from './icons';
+export { DeleteIcon } from './icons';
+export { PlusIcon } from './icons';
+export { MinusIcon } from './icons';

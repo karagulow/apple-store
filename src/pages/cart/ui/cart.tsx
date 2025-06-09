@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import styles from './cart.module.scss';
@@ -37,7 +37,7 @@ export const Cart: React.FC = () => {
 				const result = await getProductsByIds(cart.map(c => c.id));
 				setProducts(result);
 			} catch (error) {
-				console.error('Ошибка загрузки избранного:', error);
+				console.error('Ошибка загрузки корзины:', error);
 			} finally {
 				setIsLoading(false);
 			}
@@ -46,7 +46,9 @@ export const Cart: React.FC = () => {
 		fetchCartProducts();
 	}, []);
 
-	const quantityMap = new Map(cart.map(item => [item.id, item.quantity]));
+	const quantityMap = useMemo(() => {
+		return new Map(cart.map(item => [item.id, item.quantity]));
+	}, [cart]);
 
 	const onSubmit = (data: FormData) => {
 		const order = {
