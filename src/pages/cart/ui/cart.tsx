@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import styles from './cart.module.scss';
@@ -8,9 +8,9 @@ import { CartUserInfo } from './cart-user-info';
 import { CartDelivery } from './cart-delivery';
 import { CartSummary } from './cart-summary';
 
-import type { FormData, Product } from '../model/types';
-import { getProductsByIds } from '../model/api';
-import { useAppSelector } from '../../../shared/lib/hooks/redux';
+import type { FormData } from '../model/types';
+
+import { useCartProducts } from '../model/use-cart-products';
 
 export const Cart: React.FC = () => {
 	const {
@@ -19,32 +19,7 @@ export const Cart: React.FC = () => {
 		formState: { errors },
 	} = useForm<FormData>({ mode: 'onBlur' });
 
-	const [isLoading, setIsLoading] = useState(true);
-	const [products, setProducts] = useState<Product[]>([]);
-	const cart = useAppSelector(state => state.cart);
-
-	useEffect(() => {
-		const fetchCartProducts = async () => {
-			if (cart.length === 0) {
-				setProducts([]);
-				setIsLoading(false);
-				return;
-			}
-
-			setIsLoading(true);
-
-			try {
-				const result = await getProductsByIds(cart.map(c => c.id));
-				setProducts(result);
-			} catch (error) {
-				console.error('Ошибка загрузки корзины:', error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		fetchCartProducts();
-	}, []);
+	const { isLoading, products, cart } = useCartProducts();
 
 	const quantityMap = useMemo(() => {
 		return new Map(cart.map(item => [item.id, item.quantity]));
