@@ -22,6 +22,7 @@ export const Home: React.FC = () => {
 		availableCategories,
 		priceRange,
 		handleFilterChange,
+		handleApplyFilters,
 	} = useProducts();
 
 	const handleShowMore = () => {
@@ -37,6 +38,7 @@ export const Home: React.FC = () => {
 				priceRange={priceRange}
 				filters={filters}
 				handleFilterChange={handleFilterChange}
+				onApplyFilters={handleApplyFilters}
 			/>
 
 			<div className={styles.page__wrapper}>
@@ -46,6 +48,7 @@ export const Home: React.FC = () => {
 						priceRange={priceRange}
 						filters={filters}
 						onChange={handleFilterChange}
+						onApplyFilters={handleApplyFilters}
 					/>
 				</aside>
 				<div className={styles.page__content}>

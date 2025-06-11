@@ -10,6 +10,7 @@ interface Props {
 	priceRange: { min: number; max: number };
 	filters: { categories: string[]; priceRange: { min: number; max: number } };
 	handleFilterChange: (newFilters: any) => void;
+	onApplyFilters: () => void;
 }
 
 export const HomeHeader: React.FC<Props> = ({
@@ -19,6 +20,7 @@ export const HomeHeader: React.FC<Props> = ({
 	priceRange,
 	filters,
 	handleFilterChange,
+	onApplyFilters,
 }) => {
 	return (
 		<div className={styles.page__top}>
@@ -37,6 +39,7 @@ export const HomeHeader: React.FC<Props> = ({
 					priceRange={priceRange}
 					filters={filters}
 					onChange={handleFilterChange}
+					onApplyFilters={onApplyFilters}
 				/>
 			</div>
 		</div>
