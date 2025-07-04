@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { ProductCard, ProductCardSkeleton } from '../../../entities/product';
 import { Button } from '../../../shared/ui';
 import styles from './home.module.scss';
@@ -11,32 +11,33 @@ interface ProductsListProps {
 	onShowMore: () => void;
 }
 
-export const ProductsList: React.FC<ProductsListProps> = ({
-	products,
-	isLoading,
-	visibleCount,
-	onShowMore,
-}) => {
-	const visibleProducts = products.slice(0, visibleCount);
-
-	return (
-		<>
-			<div className={styles.page__products}>
-				{isLoading
-					? [...Array(6)].map((_, index) => <ProductCardSkeleton key={index} />)
-					: visibleProducts.map(product => (
-							<ProductCard
-								key={product.id}
-								id={product.id}
-								name={product.name}
-								price={product.price}
-								preview={product.preview}
-							/>
-					  ))}
-			</div>
-			{!isLoading && visibleCount < products.length && (
-				<Button onClick={onShowMore}>Показать ещё</Button>
-			)}
-		</>
-	);
-};
+export const ProductsList: React.FC<ProductsListProps> = memo(
+	({ products, isLoading, visibleCount, onShowMore }) => {
+		const visibleProducts = useMemo(
+			() => products.slice(0, visibleCount),
+			[products, visibleCount]
+		);
+		return (
+			<>
+				<div className={styles.page__products}>
+					{isLoading
+						? [...Array(6)].map((_, index) => (
+								<ProductCardSkeleton key={index} />
+						  ))
+						: visibleProducts.map(product => (
+								<ProductCard
+									key={product.id}
+									id={product.id}
+									name={product.name}
+									price={product.price}
+									preview={product.preview}
+								/>
+						  ))}
+				</div>
+				{!isLoading && visibleCount < products.length && (
+					<Button onClick={onShowMore}>Показать ещё</Button>
+				)}
+			</>
+		);
+	}
+);

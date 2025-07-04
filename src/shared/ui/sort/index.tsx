@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import classNames from 'classnames';
 import styles from './sort.module.scss';
-import arrowsIcon from '../../../shared/assets/images/arrows-up-down.svg';
+import { ArrowsUpDownIcon } from '../icons';
 
 export type SortOption = {
 	value: string;
@@ -14,77 +14,71 @@ interface SortProps {
 	onChange: (value: string) => void;
 }
 
-export const Sort: React.FC<SortProps> = ({
-	options,
-	selectedValue,
-	onChange,
-}) => {
-	const [isOpen, setIsOpen] = useState(false);
+export const Sort: React.FC<SortProps> = memo(
+	({ options, selectedValue, onChange }) => {
+		const [isOpen, setIsOpen] = useState(false);
 
-	const selectedLabel =
-		options.find(opt => opt.value === selectedValue)?.label || '';
+		const selectedLabel =
+			options.find(opt => opt.value === selectedValue)?.label || '';
 
-	const handleSelect = (value: string) => {
-		onChange(value);
-		setIsOpen(false);
-	};
+		const handleSelect = (value: string) => {
+			onChange(value);
+			setIsOpen(false);
+		};
 
-	return (
-		<div
-			className={styles.sort}
-			onMouseEnter={() => setIsOpen(true)}
-			onMouseLeave={() => setIsOpen(false)}
-		>
+		return (
 			<div
-				className={styles.sort__wrapper}
-				onClick={() => setIsOpen(!isOpen)}
-				role='button'
-				tabIndex={0}
-				aria-haspopup='listbox'
-				aria-expanded={isOpen}
-				onKeyDown={e => {
-					if (e.key === 'Enter' || e.key === ' ') {
-						e.preventDefault();
-						setIsOpen(prev => !prev);
-					}
-					if (e.key === 'Escape') {
-						setIsOpen(false);
-					}
-				}}
+				className={styles.sort}
+				onMouseEnter={() => setIsOpen(true)}
+				onMouseLeave={() => setIsOpen(false)}
 			>
-				<img
-					className={styles.sort__icon}
-					src={arrowsIcon}
-					alt='arrows-up-down'
-				/>
-				<p className={styles.sort__text}>Сортировка:</p>
-				<span className={styles.sort__value}>{selectedLabel}</span>
-			</div>
+				<div
+					className={styles.sort__wrapper}
+					onClick={() => setIsOpen(!isOpen)}
+					role='button'
+					tabIndex={0}
+					aria-haspopup='listbox'
+					aria-expanded={isOpen}
+					onKeyDown={e => {
+						if (e.key === 'Enter' || e.key === ' ') {
+							e.preventDefault();
+							setIsOpen(prev => !prev);
+						}
+						if (e.key === 'Escape') {
+							setIsOpen(false);
+						}
+					}}
+				>
+					<ArrowsUpDownIcon />
+					<p className={styles.sort__text}>Сортировка:</p>
+					<span className={styles.sort__value}>{selectedLabel}</span>
+				</div>
 
-			<ul
-				className={classNames(
-					styles.sort__dropdown,
-					isOpen && styles.sort__dropdown_open
-				)}
-				role='listbox'
-			>
-				{options.map(option => (
-					<li
-						key={option.value}
-						role='option'
-						aria-selected={selectedValue === option.value}
-						tabIndex={-1}
-						className={classNames(
-							styles.sort__dropdown__item,
-							selectedValue === option.value &&
-								styles.sort__dropdown__item_active
-						)}
-						onClick={() => handleSelect(option.value)}
-					>
-						{option.label}
-					</li>
-				))}
-			</ul>
-		</div>
-	);
-};
+				<ul
+					className={classNames(
+						styles.sort__dropdown,
+						isOpen && styles.sort__dropdown_open
+					)}
+					role='listbox'
+				>
+					{options.map(option => (
+						<li
+							key={option.value}
+							role='option'
+							aria-selected={selectedValue === option.value}
+							tabIndex={-1}
+							className={classNames(
+								styles.sort__dropdown__item,
+								selectedValue === option.value &&
+									styles.sort__dropdown__item_active
+							)}
+							onClick={() => handleSelect(option.value)}
+						>
+							{option.label}
+						</li>
+					))}
+				</ul>
+			</div>
+		);
+	}
+);

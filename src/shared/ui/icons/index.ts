@@ -5,3 +5,4 @@ export { PlusIcon } from './plus-icon';
 export { MinusIcon } from './minus-icon';
 export { CheckIcon } from './check-icon';
 export { HeartIcon } from './heart-icon';
+export { ArrowsUpDownIcon } from './arrows-up-down-icon';

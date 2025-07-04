@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import styles from './home.module.scss';
 
 import { FiltersDesktop } from '../../../features/filters';
 import { HomeHeader } from './home-header';
-
 import { ProductsList } from './products-list';
+
 import { useProducts } from '../model/use-products';
+import type { SortOption } from '../../../shared/ui/sort';
 
 export const Home: React.FC = () => {
 	const INITIAL_VISIBLE_COUNT = 6;
@@ -25,15 +26,24 @@ export const Home: React.FC = () => {
 		handleApplyFilters,
 	} = useProducts();
 
-	const handleShowMore = () => {
-		setVisibleCount(prev => prev + INCREMENT_COUNT);
-	};
+	const onShowMore = useCallback(() => {
+		setVisibleCount(c => c + INCREMENT_COUNT);
+	}, []);
+
+	const sortOptions = useMemo<SortOption[]>(
+		() => [
+			{ value: '-price', label: 'Сначала дорогие' },
+			{ value: 'price', label: 'Сначала недорогие' },
+		],
+		[]
+	);
 
 	return (
 		<div className={styles.page}>
 			<HomeHeader
 				sortBy={sortBy}
 				setSortBy={setSortBy}
+				options={sortOptions}
 				availableCategories={availableCategories}
 				priceRange={priceRange}
 				filters={filters}
@@ -56,7 +66,7 @@ export const Home: React.FC = () => {
 						products={products}
 						isLoading={isLoading}
 						visibleCount={visibleCount}
-						onShowMore={handleShowMore}
+						onShowMore={onShowMore}
 					/>
 				</div>
 			</div>

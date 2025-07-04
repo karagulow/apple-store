@@ -1,13 +1,15 @@
 import classNames from 'classnames';
 
 import styles from './checkbox.module.scss';
+import { memo } from 'react';
+import { CheckIcon } from '../icons';
 
 interface Props {
 	checked: boolean;
 	onChange?: () => void;
 }
 
-export const Checkbox: React.FC<Props> = ({ checked, onChange }) => {
+export const Checkbox: React.FC<Props> = memo(({ checked, onChange }) => {
 	return (
 		<div
 			className={classNames(
@@ -16,23 +18,7 @@ export const Checkbox: React.FC<Props> = ({ checked, onChange }) => {
 			)}
 			onClick={onChange}
 		>
-			{checked && (
-				<svg
-					width='18'
-					height='18'
-					viewBox='0 0 18 18'
-					fill='none'
-					xmlns='http://www.w3.org/2000/svg'
-				>
-					<path
-						d='M3.375 9.5625L7.875 14.0625L14.625 3.9375'
-						stroke='white'
-						strokeWidth='1.5'
-						strokeLinecap='round'
-						strokeLinejoin='round'
-					/>
-				</svg>
-			)}
+			{checked && <CheckIcon />}
 		</div>
 	);
-};
+});

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import styles from './filters.module.scss';
 
@@ -14,29 +14,25 @@ interface FiltersDesktopProps {
 	onApplyFilters: () => void;
 }
 
-export const FiltersDesktop: React.FC<FiltersDesktopProps> = ({
-	categories,
-	priceRange,
-	filters,
-	onChange,
-	onApplyFilters,
-}) => {
-	const filterBlocks = getFilterComponents({
-		categories,
-		priceRange,
-		filters,
-		onChange,
-	});
+export const FiltersDesktop: React.FC<FiltersDesktopProps> = memo(
+	({ categories, priceRange, filters, onChange, onApplyFilters }) => {
+		const filterBlocks = getFilterComponents({
+			categories,
+			priceRange,
+			filters,
+			onChange,
+		});
 
-	return (
-		<div className={styles.filters}>
-			{filterBlocks.map(({ component: Component, props }, index) => (
-				<React.Fragment key={index}>
-					<Component {...(props as any)} />
-					<hr className='divider' />
-				</React.Fragment>
-			))}
-			<Button onClick={onApplyFilters}>Применить</Button>
-		</div>
-	);
-};
+		return (
+			<div className={styles.filters}>
+				{filterBlocks.map(({ component: Component, props }, index) => (
+					<React.Fragment key={index}>
+						<Component {...(props as any)} />
+						<hr className='divider' />
+					</React.Fragment>
+				))}
+				<Button onClick={onApplyFilters}>Применить</Button>
+			</div>
+		);
+	}
+);
