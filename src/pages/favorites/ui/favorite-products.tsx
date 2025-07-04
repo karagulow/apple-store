@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 
 import styles from './favorites.module.scss';
 
@@ -9,7 +9,7 @@ import { getProductsByIds } from '../model/api';
 
 import type { Product } from '../model/types';
 
-export const FavoriteProducts: React.FC = () => {
+export const FavoriteProducts: React.FC = memo(() => {
 	const favoritesId = useAppSelector(state => state.favorites);
 	const [products, setProducts] = useState<Product[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -56,4 +56,4 @@ export const FavoriteProducts: React.FC = () => {
 			)}
 		</div>
 	);
-};
+});

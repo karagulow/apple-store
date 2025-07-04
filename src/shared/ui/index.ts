@@ -14,3 +14,5 @@ export { FilterIcon } from './icons';
 export { DeleteIcon } from './icons';
 export { PlusIcon } from './icons';
 export { MinusIcon } from './icons';
+export { CheckIcon } from './icons';
+export { HeartIcon } from './icons';
