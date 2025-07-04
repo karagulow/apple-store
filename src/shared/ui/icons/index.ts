@@ -6,3 +6,5 @@ export { MinusIcon } from './minus-icon';
 export { CheckIcon } from './check-icon';
 export { HeartIcon } from './heart-icon';
 export { ArrowsUpDownIcon } from './arrows-up-down-icon';
+export { LeftIcon } from './left-icon';
+export { RightIcon } from './right-icon';

@@ -17,3 +17,5 @@ export { MinusIcon } from './icons';
 export { CheckIcon } from './icons';
 export { HeartIcon } from './icons';
 export { ArrowsUpDownIcon } from './icons';
+export { LeftIcon } from './icons';
+export { RightIcon } from './icons';

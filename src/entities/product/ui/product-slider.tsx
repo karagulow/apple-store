@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useProductSlider } from '../model/use-product-slider';
 
 import styles from './product-slider.module.scss';
@@ -56,15 +56,15 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({
 	const [touchStart, setTouchStart] = useState(0);
 	const [touchEnd, setTouchEnd] = useState(0);
 
-	const handleTouchStart = (e: React.TouchEvent) => {
+	const handleTouchStart = useCallback((e: React.TouchEvent) => {
 		setTouchStart(e.targetTouches[0].clientX);
-	};
+	}, []);
 
-	const handleTouchMove = (e: React.TouchEvent) => {
+	const handleTouchMove = useCallback((e: React.TouchEvent) => {
 		setTouchEnd(e.targetTouches[0].clientX);
-	};
+	}, []);
 
-	const handleTouchEnd = () => {
+	const handleTouchEnd = useCallback(() => {
 		if (touchStart - touchEnd > 50) {
 			nextSlide();
 		}
@@ -72,7 +72,7 @@ export const ProductSlider: React.FC<ProductSliderProps> = ({
 		if (touchStart - touchEnd < -50) {
 			prevSlide();
 		}
-	};
+	}, [touchStart, touchEnd, nextSlide, prevSlide]);
 
 	return (
 		<div className={styles.slider}>

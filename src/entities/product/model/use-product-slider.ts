@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
 interface UseProductSliderProps {
 	productsCount: number;
@@ -27,17 +27,17 @@ export const useProductSlider = ({
 		setCurrentSlide(0);
 	}, [slidesToShow]);
 
-	const nextSlide = () => {
+	const nextSlide = useCallback(() => {
 		setCurrentSlide(prev =>
 			prev + 1 >= productsCount - slidesToShow + 1 ? 0 : prev + 1
 		);
-	};
+	}, [productsCount, slidesToShow]);
 
-	const prevSlide = () => {
+	const prevSlide = useCallback(() => {
 		setCurrentSlide(prev =>
 			prev === 0 ? productsCount - slidesToShow : prev - 1
 		);
-	};
+	}, [productsCount, slidesToShow]);
 
 	return {
 		currentSlide,

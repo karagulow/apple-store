@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { toggleFavorite } from '../../../entities/favorite/model/favoritesSlice';
 import {
 	useAppDispatch,
@@ -10,22 +11,24 @@ interface Props {
 	className?: string;
 }
 
-export const ToggleFavorite: React.FC<Props> = ({ productId, className }) => {
-	const dispatch = useAppDispatch();
-	const isFavorite = useAppSelector(
-		state => state.favorites.includes(productId),
-		(prev, next) => prev === next
-	);
+export const ToggleFavorite: React.FC<Props> = memo(
+	({ productId, className }) => {
+		const dispatch = useAppDispatch();
+		const isFavorite = useAppSelector(
+			state => state.favorites.includes(productId),
+			(prev, next) => prev === next
+		);
 
-	const handleClick = () => {
-		dispatch(toggleFavorite(productId));
-	};
+		const handleClick = () => {
+			dispatch(toggleFavorite(productId));
+		};
 
-	return (
-		<LikeButton
-			className={className}
-			isFavorite={isFavorite}
-			onToggle={handleClick}
-		/>
-	);
-};
+		return (
+			<LikeButton
+				className={className}
+				isFavorite={isFavorite}
+				onToggle={handleClick}
+			/>
+		);
+	}
+);
