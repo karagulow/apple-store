@@ -1,4 +1,6 @@
-export const MinusIcon = () => (
+import { memo } from 'react';
+
+export const MinusIcon = memo(() => (
 	<svg
 		width='18'
 		height='18'
@@ -14,4 +16,4 @@ export const MinusIcon = () => (
 			strokeLinejoin='round'
 		/>
 	</svg>
-);
+));

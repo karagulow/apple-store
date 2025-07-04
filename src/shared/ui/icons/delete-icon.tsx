@@ -1,4 +1,6 @@
-export const DeleteIcon = () => (
+import { memo } from 'react';
+
+export const DeleteIcon = memo(() => (
 	<svg
 		width='30'
 		height='30'
@@ -14,4 +16,4 @@ export const DeleteIcon = () => (
 			strokeLinejoin='round'
 		/>
 	</svg>
-);
+));

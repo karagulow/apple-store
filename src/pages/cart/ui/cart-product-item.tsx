@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -14,7 +14,7 @@ interface Props {
 	quantity: number;
 }
 
-export const CartProductItem: React.FC<Props> = React.memo(
+export const CartProductItem: React.FC<Props> = memo(
 	({ product, quantity }) => {
 		const { decrement, increment, remove, isMinQuantity } = useCartProductItem(
 			product.id.toString(),

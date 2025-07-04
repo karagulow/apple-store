@@ -1,4 +1,6 @@
-export const PlusIcon = () => (
+import { memo } from 'react';
+
+export const PlusIcon = memo(() => (
 	<svg
 		width='18'
 		height='19'
@@ -14,4 +16,4 @@ export const PlusIcon = () => (
 			strokeLinejoin='round'
 		/>
 	</svg>
-);
+));
