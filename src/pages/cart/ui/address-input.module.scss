@@ -1,0 +1,80 @@
+.input {
+	display: flex;
+	flex-direction: column;
+	row-gap: 6px;
+
+	&__label {
+		font-weight: 600;
+		font-size: 16px;
+		color: var(--foreground-primary);
+	}
+
+	&__field {
+		padding: 12px 18px;
+		width: 100%;
+
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		background: var(--background);
+
+		transition: border 0.1s ease-in-out;
+
+		&:focus {
+			border: 1px solid var(--accent);
+		}
+
+		&::placeholder {
+			color: var(--foreground-tertiary);
+		}
+
+		&_error {
+			border: 1px solid var(--wrong) !important;
+		}
+	}
+
+	&__suggestions {
+		position: absolute;
+		width: 100%;
+		margin-top: 4px;
+
+		display: flex;
+		flex-direction: column;
+		row-gap: 2px;
+
+		padding: 12px 0;
+
+		border: 1px solid var(--muted);
+		border-radius: 12px;
+		background-color: var(--background);
+		box-shadow: 0 10px 14px 0 rgba(0, 0, 0, 0.05);
+	}
+
+	&__suggestion {
+		padding: 0 20px;
+		height: 32px;
+		display: flex;
+		align-items: center;
+
+		font-weight: 400;
+		font-size: 16px;
+		color: var(--foreground-primary);
+		white-space: nowrap;
+
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+
+		&:hover {
+			background-color: #f6faff;
+		}
+	}
+
+	&__highlight {
+		color: var(--accent);
+	}
+
+	&__error {
+		font-weight: 400;
+		font-size: 14px;
+		color: var(--wrong);
+	}
+}

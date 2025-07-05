@@ -2,8 +2,9 @@ import { memo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import styles from './cart.module.scss';
-import { Input, Textarea } from '../../../shared/ui';
+import { Textarea } from '../../../shared/ui';
 import type { FormData } from '../model/types';
+import { AddressInput } from './address-input';
 
 export const CartDelivery: React.FC = memo(() => {
 	const {
@@ -15,10 +16,10 @@ export const CartDelivery: React.FC = memo(() => {
 		<div className={styles.block}>
 			<h2 className={styles.block__title}>Адрес доставки</h2>
 			<hr className='divider' />
-			<Input
+
+			<AddressInput
 				label='Введите адрес'
-				type='text'
-				{...register('address', { required: 'Введите адрес' })}
+				name='address'
 				error={errors.address?.message}
 			/>
 			<Textarea
