@@ -8,3 +8,12 @@ export type RegistrationFormData = {
 	password: string;
 	confirmPassword: string;
 };
+
+export type ForgotPasswordFormData = {
+	email: string;
+};
+
+export type ResetPasswordFormData = {
+	password: string;
+	confirmPassword: string;
+};
