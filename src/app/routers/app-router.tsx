@@ -5,6 +5,7 @@ import { AuthLayout, MainLayout } from '../layouts';
 import { ScrollToTop } from '../../shared/ui';
 import { routeConfig } from './route-config';
 import { lazyImport } from '../../shared/lib/lazy-component';
+import { PublicOnlyRoute } from './public-only-route';
 
 const Login = lazyImport(() => import('../../pages/auth'), 'Login');
 const Registration = lazyImport(
@@ -42,16 +43,21 @@ export const AppRouter: React.FC = () => {
 						<Route path={routeConfig.notFound} element={<NotFound />} />
 					</Route>
 					<Route path='/' element={<AuthLayout />}>
-						<Route path={routeConfig.login} element={<Login />} />
-						<Route path={routeConfig.registration} element={<Registration />} />
-						<Route
-							path={routeConfig.forgot_password}
-							element={<ForgotPassword />}
-						/>
-						<Route
-							path={routeConfig.reset_password}
-							element={<ResetPassword />}
-						/>
+						<Route element={<PublicOnlyRoute />}>
+							<Route path={routeConfig.login} element={<Login />} />
+							<Route
+								path={routeConfig.registration}
+								element={<Registration />}
+							/>
+							<Route
+								path={routeConfig.forgot_password}
+								element={<ForgotPassword />}
+							/>
+							<Route
+								path={routeConfig.reset_password}
+								element={<ResetPassword />}
+							/>
+						</Route>
 					</Route>
 				</Routes>
 			</Suspense>
