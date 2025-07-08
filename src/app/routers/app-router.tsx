@@ -1,11 +1,24 @@
 import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { MainLayout } from '../layouts';
+import { AuthLayout, MainLayout } from '../layouts';
 import { ScrollToTop } from '../../shared/ui';
 import { routeConfig } from './route-config';
 import { lazyImport } from '../../shared/lib/lazy-component';
 
+const Login = lazyImport(() => import('../../pages/auth'), 'Login');
+const Registration = lazyImport(
+	() => import('../../pages/auth'),
+	'Registration'
+);
+const ForgotPassword = lazyImport(
+	() => import('../../pages/auth'),
+	'ForgotPassword'
+);
+const ResetPassword = lazyImport(
+	() => import('../../pages/auth'),
+	'ResetPassword'
+);
 const Home = lazyImport(() => import('../../pages/home'), 'Home');
 const Product = lazyImport(() => import('../../pages/product'), 'Product');
 const Favorites = lazyImport(
@@ -27,6 +40,18 @@ export const AppRouter: React.FC = () => {
 						<Route path={routeConfig.favorites} element={<Favorites />} />
 						<Route path={routeConfig.cart} element={<Cart />} />
 						<Route path={routeConfig.notFound} element={<NotFound />} />
+					</Route>
+					<Route path='/' element={<AuthLayout />}>
+						<Route path={routeConfig.login} element={<Login />} />
+						<Route path={routeConfig.registration} element={<Registration />} />
+						<Route
+							path={routeConfig.forgot_password}
+							element={<ForgotPassword />}
+						/>
+						<Route
+							path={routeConfig.reset_password}
+							element={<ResetPassword />}
+						/>
 					</Route>
 				</Routes>
 			</Suspense>

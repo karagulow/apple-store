@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import styles from './main-layout.module.scss';
+import styles from './styles.module.scss';
 
 import { Header } from '../../widgets/header';
 import { Container } from '../../shared/ui';

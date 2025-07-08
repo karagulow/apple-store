@@ -3,3 +3,4 @@ export { Product } from './product';
 export { Cart } from './cart';
 export { Favorites } from './favorites';
 export { NotFound } from './not-found';
+export { Login } from './auth';
